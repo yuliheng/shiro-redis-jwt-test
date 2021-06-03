@@ -1,0 +1,85 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /shiro-jwt-test
+
+spring:
+  application:
+    # Dubbo 应用名称
+    name: server-mysql
+
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+
+  # 配置数据源
+  datasource:
+    # 使用阿里的Druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 填写你数据库的url、登录名、密码和数据库名
+    url: jdbc:mysql://192.168.11.253:3306/jeecg-boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8&useSSL=true&tinyInt1isBit=false
+    username: root
+    password: 123456
+    druid:
+      # 连接池的配置信息
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 5
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      #      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      #      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+  redis:
+    database: 0
+    host: 192.168.11.253
+    lettuce:
+      pool:
+        max-active: 8   #最大连接数据库连接数,设 0 为没有限制
+        max-idle: 8     #最大等待连接中的数量,设 0 为没有限制
+        max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
+      shutdown-timeout: 100ms
+    password: ''
+    port: 6379
+
+
+# mybatis
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+#  # 实体扫描，多个package用逗号或者分号分隔
+#  type-aliases-package: com.youlu.**.dao
+#  configuration:
+#    #    # 开启驼峰命名法
+#    map-underscore-to-camel-case: true
+#    use-generated-keys: true
+#    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+#jeecg专用配置
+jeecg :
+  # 本地：local\Minio：minio\阿里云：alioss
+  uploadType: local
+  path :
+    #文件上传根目录 设置
+    upload: D://opt//upFiles
+    #webapp文件路径
+    webapp: D://opt//webapp
+  shiro:
+    excludeUrls: /test/jeecgDemo/demo3,/test/jeecgDemo/redisDemo/**,/category/**,/visual/**,/map/**,/jmreport/bigscreen2/**
